@@ -21,7 +21,7 @@ public class CheckAuth {
 		HttpRequest request = HttpRequest.newBuilder()
 		  .header("Content-Type", "application/json")
 		  .header("Authorization", token)
-		  .uri(new URI("http://localhost:8080/api/auth/verify")).build();
+		  .uri(new URI("http://localhost:8081/api/auth/verify")).build();
 
 		return request;
 	}

@@ -1,17 +1,15 @@
-package com.ttc.spring;
+package com.ibrahim.discovery;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
-
 @EnableEurekaServer
-
 @SpringBootApplication
-public class ArticlesServicesApplication {
+public class DiscoveryApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ArticlesServicesApplication.class, args);
+		SpringApplication.run(DiscoveryApplication.class, args);
 	}
 
 }
