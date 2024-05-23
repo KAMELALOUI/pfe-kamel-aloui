@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="articles-services" />
+        <module name="spring-boot-security-jwt" />
+        <module name="site-patrimonial" />
+        <module name="gatway" />
+        <module name="discovery" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="articles-services" options="-parameters" />
+      <module name="discovery" options="-parameters" />
+      <module name="gatway" options="-parameters" />
+      <module name="site-patrimonial" options="-parameters" />
+      <module name="spring-boot-security-jwt" options="-parameters" />
+    </option>
+  </component>
+</project>
