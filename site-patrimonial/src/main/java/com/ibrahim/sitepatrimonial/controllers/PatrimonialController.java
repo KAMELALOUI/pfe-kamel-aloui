@@ -15,6 +15,8 @@ public class PatrimonialController {
     @Autowired
     private PatrimonialService patrimonialService;
 
+
+
     @GetMapping
     public List<patrimonial> getAllSites() {
         return patrimonialService.findAll();
@@ -41,4 +43,5 @@ public class PatrimonialController {
             return patrimonialService.findAll();
         }
     }
+
 }

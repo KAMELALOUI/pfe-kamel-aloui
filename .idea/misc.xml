@@ -13,6 +13,8 @@
         <option value="$PROJECT_DIR$/site-patrimonial/pom.xml" />
         <option value="$PROJECT_DIR$/../projects/kamel-multiservice-app/auth-service/pom.xml" />
         <option value="$PROJECT_DIR$/articles-services/pom.xml" />
+        <option value="$PROJECT_DIR$/media/pom.xml" />
+        <option value="$PROJECT_DIR$/mapping-service/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

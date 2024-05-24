@@ -12,6 +12,8 @@ public class PatrimonialService {
     @Autowired
     private PatrimonialRepository patrimonialRepository;
 
+    @Autowired
+
     public List<patrimonial> findAll() {
         return patrimonialRepository.findAll();
     }

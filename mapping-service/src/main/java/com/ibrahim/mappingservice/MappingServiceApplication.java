@@ -1,15 +1,13 @@
-package com.ibrahim.sitepatrimonial;
+package com.ibrahim.mappingservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-
 @SpringBootApplication
-
-public class SitePatrimonialApplication {
+public class MappingServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SitePatrimonialApplication.class, args);
+		SpringApplication.run(MappingServiceApplication.class, args);
 	}
 
 }

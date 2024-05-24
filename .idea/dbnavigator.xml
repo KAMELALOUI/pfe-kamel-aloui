@@ -4,6 +4,11 @@
     <mappings />
     <preferences />
   </component>
+  <component name="DBNavigator.Project.DataEditorManager">
+    <record-view-column-sorting-type value="BY_INDEX" />
+    <value-preview-text-wrapping value="true" />
+    <value-preview-pinned value="false" />
+  </component>
   <component name="DBNavigator.Project.DatabaseBrowserManager">
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
@@ -24,8 +29,9 @@
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files />
   </component>
-  <component name="DBNavigator.Project.DatasetFilterManager">
-    <filter-actions connection-id="38de9015-1e32-41c9-86c8-135e4a10d575" dataset="patrimonial.patrimonial" active-filter-id="" />
+  <component name="DBNavigator.Project.DatabaseSessionManager">
+    <connection id="3d76c221-fcdf-4585-b67b-fefec2bdfc7e" />
+    <connection id="38de9015-1e32-41c9-86c8-135e4a10d575" />
   </component>
   <component name="DBNavigator.Project.ObjectQuickFilterManager">
     <last-used-operator value="EQUAL" />
