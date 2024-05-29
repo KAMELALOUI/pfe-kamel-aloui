@@ -11,6 +11,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SigninComponent } from './pages/signin/signin.component';
 import { CreateAccountComponent } from './pages/create-account/create-account.component';
 import { CreateArticleComponent } from './pages/create-article/create-article.component';
+import { CreateMediaComponent } from './pages/create-media/create-media.component';
+import { CreateSitesComponent } from './pages/create-sites/create-sites.component';
+import { CreateMappComponent } from './pages/create-mapp/create-mapp.component';
 
 
 @NgModule({
@@ -21,7 +24,10 @@ import { CreateArticleComponent } from './pages/create-article/create-article.co
     FooterComponent,
     SigninComponent,
     CreateAccountComponent,
-    CreateArticleComponent
+    CreateArticleComponent,
+    CreateMediaComponent,
+    CreateSitesComponent,
+    CreateMappComponent
   ],
   imports: [
     BrowserModule,

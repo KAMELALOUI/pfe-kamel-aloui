@@ -4,22 +4,125 @@ package com.ibrahim.media.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "media")
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+
 public class Media {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private String type;
-    private Long siteId;
-    @Lob
-    @Column(name="imageData")
-    private byte[] imageData;
+
+
+    private String title;
+
+
+    @Column(nullable=false, length= 3000)
+    private String content;
+
+
+    @Column(nullable=false, length= 3000)
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+
+    @Column(nullable=false, length= 3000)
+    private String imageURL;
+
+
+    private String uid;
+
+
+    private String author = "";
+
+
+
+
+
+    public String getAuthor() {
+        return author;
+    }
+
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+
+    public String getUid() {
+        return uid;
+    }
+
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+
+    public Long getId() {
+        return id;
+    }
+
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+
+    public String getTitle() {
+        return title;
+    }
+
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+
+    public String getContent() {
+        return content;
+    }
+
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+
+    public Media() {
+        super();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 }

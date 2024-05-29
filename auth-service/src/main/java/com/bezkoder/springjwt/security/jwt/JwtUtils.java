@@ -3,7 +3,6 @@ package com.bezkoder.springjwt.security.jwt;
 import java.security.Key;
 import java.util.Date;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -61,12 +60,5 @@ public class JwtUtils {
     }
 
     return false;
-  }
-  public String parseJwt(HttpServletRequest request) {
-    String headerAuth = request.getHeader("Authorization");
-    if (headerAuth != null && headerAuth.startsWith("Bearer ")) {
-      return headerAuth.substring(7);
-    }
-    return null;
   }
 }

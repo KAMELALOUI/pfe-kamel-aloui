@@ -171,21 +171,6 @@ public class AuthController {
 		  return ResponseEntity.status(401).body( res );
 	  }
   }
-    @PostMapping("/logout")
-    public ResponseEntity<?> logout(HttpServletRequest request) {
-        try {
-            String token = jwtUtils.parseJwt(request);
 
-            if (token != null && jwtUtils.validateJwtToken(token)) {
-                System.out.println("JWT token invalidated: " + token);
-            }
-
-            // Return a success response
-            return ResponseEntity.ok(new MessageResponse("Logout successful."));
-        } catch (Exception e) {
-            // Handle any errors
-            return ResponseEntity.status(500).body(new MessageResponse("Error while logging out."));
-        }
-    }
 
 }

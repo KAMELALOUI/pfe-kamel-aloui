@@ -14,6 +14,7 @@
         <module name="mapping-service" />
         <module name="articles-services" />
         <module name="media" />
+        <module name="gateway" />
       </profile>
     </annotationProcessing>
   </component>
@@ -21,6 +22,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="articles-services" options="-parameters" />
       <module name="discovery" options="-parameters" />
+      <module name="gateway" options="-parameters" />
       <module name="gatway" options="-parameters" />
       <module name="mapping-service" options="-parameters" />
       <module name="media" options="-parameters" />
