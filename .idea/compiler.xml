@@ -14,6 +14,8 @@
         <module name="mapping-service" />
         <module name="articles-services" />
         <module name="media" />
+        <module name="site-patrimonial (2)" />
+        <module name="site-patrimonial (1)" />
         <module name="gateway" />
       </profile>
     </annotationProcessing>
@@ -27,6 +29,8 @@
       <module name="mapping-service" options="-parameters" />
       <module name="media" options="-parameters" />
       <module name="site-patrimonial" options="-parameters" />
+      <module name="site-patrimonial (1)" options="-parameters" />
+      <module name="site-patrimonial (2)" options="-parameters" />
       <module name="spring-boot-security-jwt" options="-parameters" />
     </option>
   </component>

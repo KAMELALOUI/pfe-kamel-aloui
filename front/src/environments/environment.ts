@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   api:'http://localhost:8080',
-  service_article:'http://localhost:8081',
+  services:'http://localhost:8222',
   
 };
 
