@@ -1,11 +1,11 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MainService {
+  private servicesUrl = 'http://localhost:8222';
 
   constructor(private http: HttpClient) { }
 
@@ -14,14 +14,14 @@ export class MainService {
     const headers = new HttpHeaders({
       'Authorization': '' + localStorage.getItem('token')
     });
-    return this.http.post(environment.services + '/api/articles/add', articleFormData, { headers });
+    return this.http.post( `${this.servicesUrl}/api/articles/add`, articleFormData, { headers });
   }
 
   getArticlesList() {
     const headers = new HttpHeaders({
       'Authorization': '' + localStorage.getItem('token')
     });
-    return this.http.get(environment.services + '/api/articles/list', { headers });
+    return this.http.get(`${this.servicesUrl}/api/articles/list`, { headers });
   }
 
   // media services 
@@ -29,35 +29,36 @@ export class MainService {
     const headers = new HttpHeaders({
       'Authorization': '' + localStorage.getItem('token')
     });
-    return this.http.post(environment.services + '/api/media/add', mediaFormData, { headers });
+    return this.http.post( `${this.servicesUrl}/api/media/add`, mediaFormData, { headers });
   }
 
   getMediaList() {
     const headers = new HttpHeaders({
       'Authorization': '' + localStorage.getItem('token')
     });
-    return this.http.get(environment.services + '/api/media/list', { headers });
+    return this.http.get( `${this.servicesUrl}/api/media/list`, { headers });
   }
 
+  // site
   publishSite(siteFormData: FormData) {
     const headers = new HttpHeaders({
       'Authorization': '' + localStorage.getItem('token')
     });
-    return this.http.post(environment.services + '/api/sites/add', siteFormData, { headers });
+    return this.http.post( `${this.servicesUrl}/api/sites/add`, siteFormData, { headers });
   }
 
   getSiteList() {
     const headers = new HttpHeaders({
       'Authorization': '' + localStorage.getItem('token')
     });
-    return this.http.get(environment.services + '/api/sites/list', { headers });
+    return this.http.get( `${this.servicesUrl}/api/sites/list`, { headers });
   }
 
   siteSearch() {
     const headers = new HttpHeaders({
       'Authorization': '' + localStorage.getItem('token')
     });
-    return this.http.get(environment.services + '/api/sites/search', { headers });
+    return this.http.get( `${this.servicesUrl}/api/sites/search`, { headers });
   }
 
   // mapping services
@@ -65,14 +66,14 @@ export class MainService {
     const headers = new HttpHeaders({
       'Authorization': '' + localStorage.getItem('token')
     });
-    return this.http.post(environment.services + '/api/heritage/add', mappFormData, { headers });
+    return this.http.post(`${this.servicesUrl}/api/heritage/add`, mappFormData, { headers });
   }
 
   getMappingList() {
     const headers = new HttpHeaders({
       'Authorization': '' + localStorage.getItem('token')
     });
-    return this.http.get(environment.services + '/api/heritage/list', { headers });
+    return this.http.get( `${this.servicesUrl}/api/heritage/list`, { headers });
   }
 
   searchMapping(name: string, location: string, keyword: string) {
@@ -85,6 +86,6 @@ export class MainService {
     if (location) params = params.set('location', location);
     if (keyword) params = params.set('keyword', keyword);
 
-    return this.http.get(environment.services + '/api/heritage/search', { headers, params });
+    return this.http.get( `${this.servicesUrl}/api/heritage/search`, { headers, params });
   }
 }
