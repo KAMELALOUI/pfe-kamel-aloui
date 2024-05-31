@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: front
-        image: your-dockerhub-username/front:latest
+        image: front
         ports:
         - containerPort: 80
