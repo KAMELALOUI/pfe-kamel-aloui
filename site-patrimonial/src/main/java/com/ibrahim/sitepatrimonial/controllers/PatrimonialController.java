@@ -24,7 +24,7 @@ import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/api/sites")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200") // Allow only the Angular frontend to access
 public class PatrimonialController {
 
     private static final String UPLOAD_DIR = "src/main/resources/static/uploads/";
@@ -79,9 +79,15 @@ public class PatrimonialController {
                 try {
                     byte[] bytes = file.getBytes();
                     Path path = Paths.get(UPLOAD_DIR + file.getOriginalFilename());
+
+                    // Ensure the directory exists
+                    if (!Files.exists(path.getParent())) {
+                        Files.createDirectories(path.getParent());
+                    }
+
                     Files.write(path, bytes);
 
-                    Patrimonial.setImageURL("http://localhost:8081/uploads/" + file.getOriginalFilename());
+                    Patrimonial.setImageURL("http://localhost:8085/uploads/" + file.getOriginalFilename());
                     patrimonialRepository.save(Patrimonial);
 
                     return ResponseEntity.status(HttpStatus.OK).body(new JsonResponse(true, "Patrimonial site published successfully."));

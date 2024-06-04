@@ -16,7 +16,7 @@ export class CreateMediaComponent implements OnInit {
   constructor(private fb: FormBuilder, private mainService: MainService) {
     this.form = this.fb.group({
       title: ['', Validators.required],
-      descreption: ['', Validators.required],
+      description: ['', Validators.required],
       file: [null, Validators.required]
     });
   }

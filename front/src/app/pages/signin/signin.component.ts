@@ -24,7 +24,7 @@ export class SigninComponent implements OnInit {
 
   auth(){
     this.error = '';
-    this.api.auth(this.form.value).subscribe((res:any)=>{
+    this.api.login(this.form.value).subscribe((res:any)=>{
       console.log(res);
       
       if(res.status == 401){

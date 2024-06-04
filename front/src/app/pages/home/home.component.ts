@@ -8,15 +8,32 @@ import { MainService } from 'src/app/api/main.service';
 })
 export class HomeComponent implements OnInit {
 
+  articles: any[] = [];
+  media: any[] = [];
+  heritageSites: any[] = [];
+  mappings: any[] = [];
 
-  list:any[] = [];
-
-  constructor(private main:MainService) { }
+  constructor(private main: MainService) { }
 
   ngOnInit(): void {
-    this.main.getArticlesList().toPromise().then((res:any)=>{
-      this.list = res;
-    })
-  }
+    // Fetch articles
+    this.main.getArticlesList().subscribe((res: any) => {
+      this.articles = res;
+    });
 
+    // Fetch media
+    this.main.getMediaList().subscribe((res: any) => {
+      this.media = res;
+    });
+
+    // Fetch heritage sites
+    this.main.getSiteList().subscribe((res: any) => {
+      this.heritageSites = res;
+    });
+
+    // Fetch mappings
+    this.main.getMappingList().subscribe((res: any) => {
+      this.mappings = res;
+    });
+  }
 }

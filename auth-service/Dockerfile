@@ -8,7 +8,7 @@ WORKDIR /app
 COPY target/spring-boot-security-jwt-0.0.1-SNAPSHOT.jar app.jar
 
 # Make port  available to the world outside this container
-EXPOSE 8080
+EXPOSE 8088
 
 # Set the environment variables for the application
 

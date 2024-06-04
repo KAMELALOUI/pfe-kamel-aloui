@@ -9,11 +9,10 @@
 
     <nav id="navmenu" class="navmenu">
       <ul>
-        <li><a routerLink="/" routerLinkActive="active">Home</a></li>
-        <li><a routerLink="/app/media/add" routerLinkActive="active">Create Media</a></li>
-        <li><a routerLink="/app/site/add" routerLinkActive="active">Create Sites</a></li>
-        <li><a routerLink="/app/articles/add" routerLinkActive="active">Create Articles</a></li>
-        <li><a routerLink="/app/mapping/add" routerLinkActive="active">Create Heritage</a></li>
+        <li *ngIf="token"><a routerLink="/app/media/add" routerLinkActive="active">Create Media</a></li>
+        <li *ngIf="token"><a routerLink="/app/site/add" routerLinkActive="active">Create Sites</a></li>
+        <li *ngIf="token"><a routerLink="/app/article/add" routerLinkActive="active">Create Articles</a></li>
+        <li *ngIf="token"><a routerLink="/app/mapping/add" routerLinkActive="active">Create Heritage</a></li>
 
       </ul>
       <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
@@ -21,12 +20,9 @@
 
 
 
-      <a class="btn-getstarted" routerLink="/auth" *ngIf="token == '' " >Log in</a>
-
-      <a class="btn-getstarted" routerLink="/auth" *ngIf="token != '' " >Sign In</a>
-      <a class="btn-getstarted" routerLink="/create-account" *ngIf="token != '' " >Sign Up</a>
-      <a class="btn-getstarted" (click)="logout()" *ngIf="isLoggedIn">Logout</a>
-
+    <a class="btn-getstarted" routerLink="/auth" *ngIf="!isLoggedIn">Log in</a>
+    <a class="btn-getstarted" routerLink="/create-account" *ngIf="!isLoggedIn">Sign Up</a>
+    <a class="btn-getstarted" (click)="logout()" *ngIf="isLoggedIn">Logout</a>
 
   </div>
 </header>

@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MainService } from 'src/app/api/main.service';
 
 @Component({
@@ -8,52 +7,55 @@ import { MainService } from 'src/app/api/main.service';
   templateUrl: './create-sites.component.html',
   styleUrls: ['./create-sites.component.css']
 })
-export class CreateSitesComponent implements OnInit {
-
+export class CreateSitesComponent {
   form: FormGroup;
-  error: string = '';
-  success: string = '';
+  selectedFile: File | null = null;
+  error: string | null = null;
+  success: string | null = null;
 
-  constructor(private mainService: MainService, private router: Router) {
-    this.form = new FormGroup({
-      nom: new FormControl('', Validators.required),
-      localisation: new FormControl('', Validators.required),
-      descriptionHistorique: new FormControl('', Validators.required),
-      file: new FormControl(null, Validators.required)
+  constructor(private fb: FormBuilder, private mainService: MainService) {
+    this.form = this.fb.group({
+      nom: ['', Validators.required],
+      localisation: ['', Validators.required],
+      descriptionHistorique: ['', Validators.required],
+      file: [null, Validators.required]
     });
   }
 
-  ngOnInit(): void {}
-
   onFileChange(event: any) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.form.patchValue({
-        file: file
-      });
+    this.selectedFile = event.target.files[0];
+    if (this.selectedFile) {
+      this.form.patchValue({ file: this.selectedFile });
     }
   }
 
   createSite() {
-    if (this.form.invalid) {
-      this.error = 'Please fill all required fields.';
-      return;
+    if (this.form.valid && this.selectedFile) {
+      const formData: FormData = new FormData();
+      formData.append('file', this.selectedFile);
+      formData.append('nom', this.form.get('nom')?.value);
+      formData.append('localisation', this.form.get('localisation')?.value);
+      formData.append('descriptionHistorique', this.form.get('descriptionHistorique')?.value);
+
+      this.mainService.addSite(formData).subscribe(
+        response => {
+          this.success = 'Site added successfully.';
+          this.error = null;
+          this.form.reset();
+          this.selectedFile = null;
+        },
+        error => {
+          this.error = 'An error occurred while adding the site.';
+          this.success = null;
+        }
+      );
+    } else {
+      this.error = 'Please fill out the form correctly.';
+      this.success = null;
     }
+  }
 
-    const formData = new FormData();
-    formData.append('nom', this.form.get('nom')?.value);
-    formData.append('localisation', this.form.get('localisation')?.value);
-    formData.append('descriptionHistorique', this.form.get('descriptionHistorique')?.value);
-    formData.append('file', this.form.get('file')?.value);
-
-    this.mainService.publishSite(formData).subscribe(
-      (res: any) => {
-        this.success = res.message;
-        this.router.navigate(['/sites']);  // Navigate to a list page or reset the form
-      },
-      (err: any) => {
-        this.error = err.message;
-      }
-    );
+  get fileInvalid() {
+    return !this.selectedFile && this.form.get('file')?.touched;
   }
 }

@@ -30,11 +30,11 @@
                     <div class="form-group">
                         <label for="file">Image</label>
                         <input id="file" type="file" (change)="onFileChange($event)" class="form-control">
-                        <div *ngIf="form.get('file')?.invalid && form.get('file')?.touched" class="text-danger">
+                        <div *ngIf="fileInvalid" class="text-danger">
                             Image is required
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success w-100" [disabled]="form.invalid">Create Site</button>
+                    <button type="submit" class="btn btn-success w-100" [disabled]="form.invalid || !selectedFile">Create Site</button>
                     <div *ngIf="error" class="text-danger">{{ error }}</div>
                     <div *ngIf="success" class="text-success">{{ success }}</div>
                 </form>

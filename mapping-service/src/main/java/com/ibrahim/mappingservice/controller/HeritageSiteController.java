@@ -24,7 +24,7 @@ import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/api/heritage")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 public class HeritageSiteController {
 
     private static final String UPLOAD_DIR = "src/main/resources/static/uploads/";
@@ -81,7 +81,7 @@ public class HeritageSiteController {
                     Path path = Paths.get(UPLOAD_DIR + file.getOriginalFilename());
                     Files.write(path, bytes);
 
-                    heritageSite.setImageURL("http://localhost:8081/uploads/" + file.getOriginalFilename());
+                    heritageSite.setImageURL("http://localhost:8087/uploads/" + file.getOriginalFilename());
                     heritageSiteRepository.save(heritageSite);
 
                     return ResponseEntity.status(HttpStatus.OK).body(new JsonResponse(true, "Heritage site published successfully."));

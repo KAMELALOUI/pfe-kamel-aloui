@@ -13,10 +13,10 @@ const routes: Routes = [
   { path:'', component:HomeComponent },
   { path:'auth', component:SigninComponent },
   { path:'create-account', component:CreateAccountComponent },
-  { path:'app/article/add', component:CreateArticleComponent , canActivate: [AuthGuard] },
-  { path: 'app/site/add', component: CreateSitesComponent , canActivate: [AuthGuard] },
-  { path: 'app/media/add', component: CreateMediaComponent , canActivate: [AuthGuard] },
-  { path: 'app/mapping/add', component: CreateMappComponent, canActivate: [AuthGuard] },
+  { path:'app/article/add', component:CreateArticleComponent, canActivate:[AuthGuard]  },
+  { path: 'app/site/add', component: CreateSitesComponent , canActivate:[AuthGuard] },
+  { path: 'app/media/add', component: CreateMediaComponent, canActivate:[AuthGuard]  },
+  { path: 'app/mapping/add', component: CreateMappComponent , canActivate:[AuthGuard]},
 
   
   

@@ -34,7 +34,7 @@
                             File is required
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Submit</button>
+                    <button type="submit" class="btn btn-success w-100" [disabled]="form.invalid">Submit</button>
                 </form>
                 <div *ngIf="success" class="alert alert-success">
                     {{ success }}
@@ -42,7 +42,7 @@
                 <div *ngIf="error" class="alert alert-danger">
                     {{ error }}
                 </div>
-                <div class="search-bar mt-5">
+                <!-- <div class="search-bar mt-5">
                     <input type="text" placeholder="Name" #nameInput>
                     <input type="text" placeholder="Location" #locationInput>
                     <input type="text" placeholder="Keyword" #keywordInput>
@@ -55,7 +55,7 @@
                         <p>{{ mapping.description }}</p>
                         <img [src]="mapping.imageURL" alt="{{ mapping.name }}" class="img-fluid">
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

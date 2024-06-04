@@ -6,8 +6,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.nio.file.Path; 
+import java.nio.file.Path;
 
 
 import java.util.concurrent.CompletableFuture;
@@ -30,43 +29,43 @@ import com.ttc.spring.dto.JsonResponse;
 import com.ttc.spring.entities.Article;
 import com.ttc.spring.repositories.ArticleRepository;
 import com.ttc.spring.services.CheckAuth;
- 
+
 @RestController
 @RequestMapping("/api/articles")
-@CrossOrigin( origins = "*" )
+@CrossOrigin( origins = "http://localhost:4200")
 public class ArticleController {
-	
-	 private static final String UPLOAD_DIR = "src/main/resources/static/uploads/";
 
-	
-	
-	@Autowired
-	public CheckAuth checkAuth;
-	
-	
-	@Autowired
-	public ArticleRepository repo;
-	
-	
-	
-	@GetMapping("/list")
-	public ResponseEntity<?> createArticle( ){
-		return ResponseEntity.ok(this.repo.findAll());
-	}
-	
-	
-	
-	
-	
-	@PostMapping("/add")
-	public ResponseEntity<?> createArticle( 
-			@RequestHeader( name="Authorization" ) String token, @RequestParam("file") MultipartFile file,
-			 @RequestParam("title") String title,
-			 @RequestParam("descreption") String descreption  )throws IOException, InterruptedException, URISyntaxException{
-		System.out.println(token);
-		HttpClient client = HttpClient.newHttpClient();
- 
-		
+    private static final String UPLOAD_DIR = "src/main/resources/static/uploads/";
+
+
+
+    @Autowired
+    public CheckAuth checkAuth;
+
+
+    @Autowired
+    public ArticleRepository repo;
+
+
+
+    @GetMapping("/list")
+    public ResponseEntity<?> createArticle( ){
+        return ResponseEntity.ok(this.repo.findAll());
+    }
+
+
+
+
+
+    @PostMapping("/add")
+    public ResponseEntity<?> createArticle(
+            @RequestHeader( name="Authorization" ) String token, @RequestParam("file") MultipartFile file,
+            @RequestParam("title") String title,
+            @RequestParam("descreption") String descreption  )throws IOException, InterruptedException, URISyntaxException{
+        System.out.println(token);
+        HttpClient client = HttpClient.newHttpClient();
+
+
         CompletableFuture<AuthCheckResponseObject> futureResponse = client.sendAsync(this.checkAuth.checkAuth(token), HttpResponse.BodyHandlers.ofString())
                 .thenApply(HttpResponse::body)
                 .thenApply(responseBody -> {
@@ -76,7 +75,7 @@ public class ArticleController {
                         AuthCheckResponseObject responseObject = objectMapper.readValue(responseBody, AuthCheckResponseObject.class);
                         System.out.println("Parsed response (Jackson): " + responseObject);
 
-                        
+
                         return responseObject;
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -84,57 +83,57 @@ public class ArticleController {
                         return new AuthCheckResponseObject(false);
                     }
                 });
-        
+
         AuthCheckResponseObject result = futureResponse.join();
-        
-        
+
+
         if (result.isSuccess())  {
-        	
-        	Article article = new Article();
-        	
-        	article.setTitle(title);
-        	article.setContent(descreption);
-        	
-        	
-        	 if (file.isEmpty()) {
-                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body( new JsonResponse(false, "bad image !!")  );
-             }else {
-                 try {
-                     // Save the file locally
-                     byte[] bytes = file.getBytes();
-                     Path path = Paths.get(UPLOAD_DIR + file.getOriginalFilename());
-                     Files.write(path, bytes);
+
+            Article article = new Article();
+
+            article.setTitle(title);
+            article.setContent(descreption);
 
 
-                     article.setImageURL( "http://localhost:8081/uploads/"+ file.getOriginalFilename()  );
-                     
-                     this.repo.save(article);
-                     
-                     
-                     return ResponseEntity.status(HttpStatus.OK).body(new JsonResponse(true,"Article published successfully."));
+            if (file.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body( new JsonResponse(false, "bad image !!")  );
+            }else {
+                try {
+                    // Save the file locally
+                    byte[] bytes = file.getBytes();
+                    Path path = Paths.get(UPLOAD_DIR + file.getOriginalFilename());
+                    Files.write(path, bytes);
 
-                 } catch (IOException e) {
-                     e.printStackTrace();
-                     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new JsonResponse(true,"Failed to upload the file"));
-                 }
-             }
-        	
-        	
-        	
-        	
-        	
+
+                    article.setImageURL( "http://localhost:8084/uploads/"+ file.getOriginalFilename()  );
+
+                    this.repo.save(article);
+
+
+                    return ResponseEntity.status(HttpStatus.OK).body(new JsonResponse(true,"Article published successfully."));
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new JsonResponse(true,"Failed to upload the file"));
+                }
+            }
+
+
+
+
+
         }else {
-        	return ResponseEntity.status(401).body( new JsonResponse(false, "Session expired"));
-    		
+            return ResponseEntity.status(401).body( new JsonResponse(false, "Session expired"));
+
         }
-		
-		
-        
-		
-		 
-		 
-		
-		
-	}
+
+
+
+
+
+
+
+
+    }
 
 }

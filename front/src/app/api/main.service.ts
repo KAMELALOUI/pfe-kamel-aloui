@@ -1,5 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { catchError } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,83 +11,69 @@ export class MainService {
 
   constructor(private http: HttpClient) { }
 
-  // article services 
-  publish(articleFormData: FormData) {
-    const headers = new HttpHeaders({
-      'Authorization': '' + localStorage.getItem('token')
+  private getHeaders() {
+    return new HttpHeaders({
+      'Authorization': 'Bearer ' + localStorage.getItem('token')
     });
-    return this.http.post( `${this.servicesUrl}/api/articles/add`, articleFormData, { headers });
   }
 
-  getArticlesList() {
-    const headers = new HttpHeaders({
-      'Authorization': '' + localStorage.getItem('token')
-    });
-    return this.http.get(`${this.servicesUrl}/api/articles/list`, { headers });
+  publish(articleFormData: FormData): Observable<any> {
+    return this.http.post(`${this.servicesUrl}/api/articles/add`, articleFormData, { headers: this.getHeaders() })
+      .pipe(catchError(this.handleError));
   }
 
-  // media services 
-  publishM(mediaFormData: FormData) {
-    const headers = new HttpHeaders({
-      'Authorization': '' + localStorage.getItem('token')
-    });
-    return this.http.post( `${this.servicesUrl}/api/media/add`, mediaFormData, { headers });
+  getArticlesList(): Observable<any> {
+    return this.http.get(`${this.servicesUrl}/api/articles/list`, { headers: this.getHeaders() })
+      .pipe(catchError(this.handleError));
   }
 
-  getMediaList() {
-    const headers = new HttpHeaders({
-      'Authorization': '' + localStorage.getItem('token')
-    });
-    return this.http.get( `${this.servicesUrl}/api/media/list`, { headers });
+  publishM(mediaFormData: FormData): Observable<any> {
+    return this.http.post(`${this.servicesUrl}/api/media/add`, mediaFormData, { headers: this.getHeaders() })
+      .pipe(catchError(this.handleError));
   }
 
-  // site
-  publishSite(siteFormData: FormData) {
-    const headers = new HttpHeaders({
-      'Authorization': '' + localStorage.getItem('token')
-    });
-    return this.http.post( `${this.servicesUrl}/api/sites/add`, siteFormData, { headers });
+  getMediaList(): Observable<any> {
+    return this.http.get(`${this.servicesUrl}/api/media/list`, { headers: this.getHeaders() })
+      .pipe(catchError(this.handleError));
   }
 
-  getSiteList() {
-    const headers = new HttpHeaders({
-      'Authorization': '' + localStorage.getItem('token')
-    });
-    return this.http.get( `${this.servicesUrl}/api/sites/list`, { headers });
+  addSite(formData: FormData): Observable<any> {
+    return this.http.post(`${this.servicesUrl}/api/sites/add`, formData, { headers: this.getHeaders() })
+      .pipe(catchError(this.handleError));
   }
 
-  siteSearch() {
-    const headers = new HttpHeaders({
-      'Authorization': '' + localStorage.getItem('token')
-    });
-    return this.http.get( `${this.servicesUrl}/api/sites/search`, { headers });
+  getSiteList(): Observable<any> {
+    return this.http.get(`${this.servicesUrl}/api/sites/list`, { headers: this.getHeaders() })
+      .pipe(catchError(this.handleError));
   }
 
-  // mapping services
-  publishMapping(mappFormData: FormData) {
-    const headers = new HttpHeaders({
-      'Authorization': '' + localStorage.getItem('token')
-    });
-    return this.http.post(`${this.servicesUrl}/api/heritage/add`, mappFormData, { headers });
+  siteSearch(): Observable<any> {
+    return this.http.get(`${this.servicesUrl}/api/sites/search`, { headers: this.getHeaders() })
+      .pipe(catchError(this.handleError));
   }
 
-  getMappingList() {
-    const headers = new HttpHeaders({
-      'Authorization': '' + localStorage.getItem('token')
-    });
-    return this.http.get( `${this.servicesUrl}/api/heritage/list`, { headers });
+  publishMapping(mappFormData: FormData): Observable<any> {
+    return this.http.post(`${this.servicesUrl}/api/heritage/add`, mappFormData, { headers: this.getHeaders() })
+      .pipe(catchError(this.handleError));
   }
 
-  searchMapping(name: string, location: string, keyword: string) {
-    const headers = new HttpHeaders({
-      'Authorization': '' + localStorage.getItem('token')
-    });
+  getMappingList(): Observable<any> {
+    return this.http.get(`${this.servicesUrl}/api/heritage/list`, { headers: this.getHeaders() })
+      .pipe(catchError(this.handleError));
+  }
 
+  searchMapping(name: string, location: string, keyword: string): Observable<any> {
     let params = new HttpParams();
     if (name) params = params.set('name', name);
     if (location) params = params.set('location', location);
     if (keyword) params = params.set('keyword', keyword);
 
-    return this.http.get( `${this.servicesUrl}/api/heritage/search`, { headers, params });
+    return this.http.get(`${this.servicesUrl}/api/heritage/search`, { headers: this.getHeaders(), params })
+      .pipe(catchError(this.handleError));
+  }
+
+  private handleError(error: any): Observable<never> {
+    console.error('An error occurred', error);
+    return throwError(error);
   }
 }

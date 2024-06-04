@@ -24,7 +24,7 @@ import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/api/media")
-@CrossOrigin( origins = "*" )
+@CrossOrigin( origins = "http://localhost:4200" )
 public class MediaController {
 
     private static final String UPLOAD_DIR = "src/main/resources/static/uploads/";
@@ -97,7 +97,7 @@ public class MediaController {
                     Files.write(path, bytes);
 
 
-                    media.setImageURL( "http://localhost:8081/uploads/"+ file.getOriginalFilename()  );
+                    media.setImageURL( "http://localhost:8086/uploads/"+ file.getOriginalFilename()  );
 
                     this.mediaRepository.save(media);
 

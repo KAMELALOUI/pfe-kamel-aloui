@@ -6,18 +6,20 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080';
+  private apiUrl = 'http://localhost:8088/api/auth';
 
-  constructor( private http:HttpClient , private router: Router) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
-
-
-  auth(credential:any){
-    return this.http.post(`${this.apiUrl}/api/auth/signin`, credential);
+  login(credential: any) {
+    return this.http.post<any>(`${this.apiUrl}/login`, credential);
   }
 
-  createAccount(credential:any){
-    return this.http.post(`${this.apiUrl}/api/auth/signup`, credential);
+  signup(credential: any) {
+    return this.http.post<any>(`${this.apiUrl}/signup`, credential);
+  }
+
+  logout1() {
+    return this.http.post<any>(`${this.apiUrl}/logout`, {});
   }
   logout() {
     localStorage.removeItem('token');

@@ -22,4 +22,8 @@ export class HeaderComponent implements OnInit {
     this.authService.logout();
     this.isLoggedIn = false;
   }
+  checkIfLoggedIn() {
+    // Replace this with your logic to check login status (e.g., using token or isLoggedIn variable)
+    return this.token !== ''; // Example using token variable
+  }
 }
