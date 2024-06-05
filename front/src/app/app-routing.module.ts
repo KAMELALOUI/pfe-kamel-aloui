@@ -10,7 +10,7 @@ import { CreateMediaComponent } from './pages/create-media/create-media.componen
 import { CreateMappComponent } from './pages/create-mapp/create-mapp.component';
 
 const routes: Routes = [
-  { path:'', component:HomeComponent },
+  { path:'', component:HomeComponent  },
   { path:'auth', component:SigninComponent },
   { path:'create-account', component:CreateAccountComponent },
   { path:'app/article/add', component:CreateArticleComponent, canActivate:[AuthGuard]  },

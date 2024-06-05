@@ -39,19 +39,14 @@ export class CreateMediaComponent implements OnInit {
 
     const formData = new FormData();
     formData.append('title', this.form.get('title')?.value);
-    formData.append('descreption', this.form.get('descreption')?.value);
+    formData.append('description', this.form.get('description')?.value);
     formData.append('file', this.form.get('file')?.value);
 
     this.mainService.publishM(formData).subscribe({
       next: (response: any) => {
-        if (response.success) {
-          this.success = 'Media published successfully.';
-          this.error = null;
-          this.form.reset();
-        } else {
-          this.error = response.message;
-          this.success = null;
-        }
+        this.success = 'Media published successfully.';
+        this.error = null;
+        this.form.reset();
       },
       error: (err) => {
         this.error = 'An error occurred while publishing media.';

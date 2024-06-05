@@ -2,7 +2,8 @@ package com.ibrahim.media.dto;
 
 
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+@JsonIgnoreProperties(ignoreUnknown = true)
 
 public class AuthCheckResponseObject {
 

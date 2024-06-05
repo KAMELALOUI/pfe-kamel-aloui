@@ -13,26 +13,26 @@ export class HomeComponent implements OnInit {
   heritageSites: any[] = [];
   mappings: any[] = [];
 
-  constructor(private main: MainService) { }
+  constructor(private mainService: MainService) { }
 
   ngOnInit(): void {
     // Fetch articles
-    this.main.getArticlesList().subscribe((res: any) => {
+    this.mainService.getArticlesList().subscribe((res: any) => {
       this.articles = res;
     });
 
     // Fetch media
-    this.main.getMediaList().subscribe((res: any) => {
+    this.mainService.getMediaList().subscribe((res: any) => {
       this.media = res;
     });
 
     // Fetch heritage sites
-    this.main.getSiteList().subscribe((res: any) => {
+    this.mainService.getSiteList().subscribe((res: any) => {
       this.heritageSites = res;
     });
 
     // Fetch mappings
-    this.main.getMappingList().subscribe((res: any) => {
+    this.mainService.getMappingList().subscribe((res: any) => {
       this.mappings = res;
     });
   }

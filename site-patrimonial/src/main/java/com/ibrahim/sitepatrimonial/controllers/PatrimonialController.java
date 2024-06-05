@@ -9,6 +9,7 @@ import com.ibrahim.sitepatrimonial.services.CheckAuth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,9 +23,11 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+
 @RestController
 @RequestMapping("/api/sites")
-@CrossOrigin(origins = "http://localhost:4200") // Allow only the Angular frontend to access
 public class PatrimonialController {
 
     private static final String UPLOAD_DIR = "src/main/resources/static/uploads/";
@@ -36,11 +39,15 @@ public class PatrimonialController {
     private PatrimonialRepository patrimonialRepository;
 
     @GetMapping("/list")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+
     public ResponseEntity<?> getAllSites() {
         return ResponseEntity.ok(patrimonialRepository.findAll());
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+
     public ResponseEntity<?> createSite(
             @RequestHeader(name = "Authorization") String token,
             @RequestParam("file") MultipartFile file,
@@ -102,6 +109,8 @@ public class PatrimonialController {
     }
 
     @GetMapping("/search")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+
     public ResponseEntity<?> searchSites(
             @RequestParam(required = false) String nom,
             @RequestParam(required = false) String localisation,

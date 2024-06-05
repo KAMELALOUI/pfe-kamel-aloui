@@ -14,6 +14,7 @@ import java.util.concurrent.CompletableFuture;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,9 +31,10 @@ import com.ttc.spring.entities.Article;
 import com.ttc.spring.repositories.ArticleRepository;
 import com.ttc.spring.services.CheckAuth;
 
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+
 @RestController
 @RequestMapping("/api/articles")
-@CrossOrigin( origins = "http://localhost:4200")
 public class ArticleController {
 
     private static final String UPLOAD_DIR = "src/main/resources/static/uploads/";
@@ -49,6 +51,8 @@ public class ArticleController {
 
 
     @GetMapping("/list")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+
     public ResponseEntity<?> createArticle( ){
         return ResponseEntity.ok(this.repo.findAll());
     }
@@ -58,6 +62,8 @@ public class ArticleController {
 
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+
     public ResponseEntity<?> createArticle(
             @RequestHeader( name="Authorization" ) String token, @RequestParam("file") MultipartFile file,
             @RequestParam("title") String title,
