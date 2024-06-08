@@ -35,29 +35,29 @@ export class CreateArticleComponent implements OnInit {
 
 
   publish(){
-    const data:any = this.form.value;
+    // const data:any = this.form.value;
 
-    let formData = new FormData();
+    // let formData = new FormData();
 
  
-    formData.append('file',this.photo);
-    formData.append('descreption',data.descreption);
-    formData.append('title',data.title);
+    // formData.append('file',this.photo);
+    // formData.append('descreption',data.descreption);
+    // formData.append('title',data.title);
 
-    this.error='';
-    this.success='';
+    // this.error='';
+    // this.success='';
 
-    this.main.publish(formData).toPromise().then((res:any)=>{
-      console.log(res);
+    // this.main.publish(formData).toPromise().then((res:any)=>{
+    //   console.log(res);
 
-      if( res.success == true ){
-        this.success = res.message;
-        this.form.reset();
-      }
+    //   if( res.success == true ){
+    //     this.success = res.message;
+    //     this.form.reset();
+    //   }
 
-    }).catch((err)=>{
-      this.error=err.message;
-    })
+    // }).catch((err)=>{
+    //   this.error=err.message;
+    // })
 
 
     

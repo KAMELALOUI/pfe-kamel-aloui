@@ -14,6 +14,7 @@ import { CreateArticleComponent } from './pages/create-article/create-article.co
 import { CreateMediaComponent } from './pages/create-media/create-media.component';
 import { CreateSitesComponent } from './pages/create-sites/create-sites.component';
 import { CreateMappComponent } from './pages/create-mapp/create-mapp.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @NgModule({
@@ -34,7 +35,9 @@ import { CreateMappComponent } from './pages/create-mapp/create-mapp.component';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxPaginationModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -23,14 +23,12 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
-
 @RestController
 @RequestMapping("/api/heritage")
 public class HeritageSiteController {
 
-    private static final String UPLOAD_DIR = "src/main/resources/static/uploads/";
+    private static final String UPLOAD_DIR = "src/main/resources/static/uploads/heritage/";
 
     @Autowired
     public CheckAuth checkAuth;
@@ -40,14 +38,12 @@ public class HeritageSiteController {
 
     @GetMapping("/list")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-
     public ResponseEntity<?> getAllSites() {
         return ResponseEntity.ok(heritageSiteRepository.findAll());
     }
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-
     public ResponseEntity<?> createSite(
             @RequestHeader(name = "Authorization") String token,
             @RequestParam("file") MultipartFile file,
@@ -86,9 +82,15 @@ public class HeritageSiteController {
                 try {
                     byte[] bytes = file.getBytes();
                     Path path = Paths.get(UPLOAD_DIR + file.getOriginalFilename());
+
+                    // Ensure the directory exists
+                    if (!Files.exists(path.getParent())) {
+                        Files.createDirectories(path.getParent());
+                    }
+
                     Files.write(path, bytes);
 
-                    heritageSite.setImageURL("http://localhost:8087/uploads/" + file.getOriginalFilename());
+                    heritageSite.setImageURL("http://localhost:8087/uploads/heritage/" + file.getOriginalFilename());
                     heritageSiteRepository.save(heritageSite);
 
                     return ResponseEntity.status(HttpStatus.OK).body(new JsonResponse(true, "Heritage site published successfully."));
@@ -104,7 +106,6 @@ public class HeritageSiteController {
 
     @GetMapping("/search")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-
     public ResponseEntity<?> searchSites(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String location,

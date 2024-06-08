@@ -1,64 +1,53 @@
 <app-header></app-header>
 
+
+
 <main class="main container">
+    
+
     <div class="row mt-5 justify-content-center mb-5">
         <div class="col-12 col-sm-8">
-            <div class="container">
-                <h2>Heritage Sites</h2>
-                <form [formGroup]="form" (ngSubmit)="submit()">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" formControlName="name" class="form-control">
-                        <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="text-danger">
-                            Name is required
+            <div class="card">
+                <div class="card-body">
+                    <h3>Publish a new event culturel</h3>
+                    
+                    <form [formGroup]="form" (ngSubmit)="publish()" >
+                        <div class="mb-3">
+                            <label for="">Photo </label>
+                            <input type="file" accept="image/*" class="form-control" formControlName="photo" (change)="getPhoto($event)" >
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="location">Location</label>
-                        <input type="text" id="location" formControlName="location" class="form-control">
-                        <div *ngIf="form.get('location')?.invalid && form.get('location')?.touched" class="text-danger">
-                            Location is required
+                        <div class="mb-3">
+                            <label for="">nom</label>
+                            <input type="text" class="form-control" formControlName="nom">
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea id="description" formControlName="description" class="form-control"></textarea>
-                        <div *ngIf="form.get('description')?.invalid && form.get('description')?.touched" class="text-danger">
-                            Description is required
+                        <div class="mb-3">
+                            <label for="">localisation </label>
+                            <textarea type="password" class="form-control" formControlName="localisation" ></textarea>
+                        </div> 
+                        <div class="mb-3">
+                            <label for="">description Historique </label>
+                            <textarea type="password" class="form-control" formControlName="descriptionHistorique" rows="10"></textarea>
+                        </div> 
+                        <div class="mb-3">
+                           <button class="btn btn-success w-100" [disabled]=" ! form.valid">Publish</button>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="file">File</label>
-                        <input type="file" id="file" (change)="onFileChange($event)" class="form-control">
-                        <div *ngIf="form.get('file')?.invalid && form.get('file')?.touched" class="text-danger">
-                            File is required
+
+                        <div class="alert alert-danger" *ngIf="error != '' ">
+                            {{ error }}
                         </div>
-                    </div>
-                    <button type="submit" class="btn btn-success w-100" [disabled]="form.invalid">Submit</button>
-                </form>
-                <div *ngIf="success" class="alert alert-success">
-                    {{ success }}
+
+                        <div class="alert alert-success" *ngIf="success != '' ">
+                            {{ success }}
+                        </div>
+                        
+                    </form>
                 </div>
-                <div *ngIf="error" class="alert alert-danger">
-                    {{ error }}
-                </div>
-                <!-- <div class="search-bar mt-5">
-                    <input type="text" placeholder="Name" #nameInput>
-                    <input type="text" placeholder="Location" #locationInput>
-                    <input type="text" placeholder="Keyword" #keywordInput>
-                    <button (click)="search(nameInput.value, locationInput.value, keywordInput.value)">Search</button>
-                </div>
-                <div class="mappings-list mt-5">
-                    <div class="mapping-item" *ngFor="let mapping of mappings">
-                        <h3>{{ mapping.name }}</h3>
-                        <p>{{ mapping.location }}</p>
-                        <p>{{ mapping.description }}</p>
-                        <img [src]="mapping.imageURL" alt="{{ mapping.name }}" class="img-fluid">
-                    </div>
-                </div> -->
             </div>
+            
         </div>
     </div>
+
 </main>
+
 
 <app-footer></app-footer>

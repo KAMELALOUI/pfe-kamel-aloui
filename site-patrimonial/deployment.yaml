@@ -14,7 +14,7 @@ spec:
         app: patrimonial-deployment
     spec:
       containers:
-        - name: site-patrimonial-service
+        - name: patrimonial-deployment
           image: site-patrimonial-service
           ports:
             - containerPort: 80

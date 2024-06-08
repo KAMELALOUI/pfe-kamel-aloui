@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "mapping")
 @Getter
+
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,12 +24,16 @@ public class HeritageSite {
     private String name;
     private String description;
     private String location;
+
+
+    @Column(nullable=false, length= 3000)
     private String imageURL;
     private String uid;
     private String author = "";
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
 
     // Getters and Setters if not using Lombok
     public String getAuthor() {
@@ -94,4 +99,6 @@ public class HeritageSite {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
+
+
 }

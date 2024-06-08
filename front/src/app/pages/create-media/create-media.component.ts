@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MainService } from 'src/app/api/main.service';
 
 @Component({
@@ -9,49 +9,45 @@ import { MainService } from 'src/app/api/main.service';
 })
 export class CreateMediaComponent implements OnInit {
 
-  form: FormGroup;
-  error: string | null = null;
-  success: string | null = null;
+  form = new FormGroup({
+    title: new FormControl('', Validators.required),
+    content: new FormControl('', Validators.required),
+    photo: new FormControl(null, Validators.required)
+  });
 
-  constructor(private fb: FormBuilder, private mainService: MainService) {
-    this.form = this.fb.group({
-      title: ['', Validators.required],
-      description: ['', Validators.required],
-      file: [null, Validators.required]
-    });
+  photo: any;
+  error: string = '';
+  success: string = '';
+
+  constructor(private main: MainService) { }
+
+  ngOnInit(): void { }
+
+  getPhoto(event: any) {
+    const file = event.target.files[0];
+    this.photo = file;
   }
 
-  ngOnInit(): void {}
+  publish() {
+    const data: any = this.form.value;
+    let formData = new FormData();
 
-  onFileChange(event: any) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.form.patchValue({
-        file: file
-      });
-    }
-  }
+    formData.append('file', this.photo);
+    formData.append('descreption', data.content);
+    formData.append('title', data.title);
 
-  createMedia() {
-    if (this.form.invalid) {
-      return;
-    }
+    this.error = '';
+    this.success = '';
 
-    const formData = new FormData();
-    formData.append('title', this.form.get('title')?.value);
-    formData.append('description', this.form.get('description')?.value);
-    formData.append('file', this.form.get('file')?.value);
+    this.main.publishM(formData).toPromise().then((res: any) => {
+      console.log(res);
 
-    this.mainService.publishM(formData).subscribe({
-      next: (response: any) => {
-        this.success = 'Media published successfully.';
-        this.error = null;
+      if (res.success == true) {
+        this.success = res.message;
         this.form.reset();
-      },
-      error: (err) => {
-        this.error = 'An error occurred while publishing media.';
-        this.success = null;
       }
+    }).catch((err) => {
+      this.error = err.message;
     });
   }
 }

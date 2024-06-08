@@ -23,14 +23,12 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
-
 @RestController
 @RequestMapping("/api/sites")
 public class PatrimonialController {
 
-    private static final String UPLOAD_DIR = "src/main/resources/static/uploads/";
+    private static final String UPLOAD_DIR = "src/main/resources/static/uploads/patrimonial/";
 
     @Autowired
     public CheckAuth checkAuth;
@@ -38,16 +36,8 @@ public class PatrimonialController {
     @Autowired
     private PatrimonialRepository patrimonialRepository;
 
-    @GetMapping("/list")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-
-    public ResponseEntity<?> getAllSites() {
-        return ResponseEntity.ok(patrimonialRepository.findAll());
-    }
-
     @PostMapping("/add")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-
     public ResponseEntity<?> createSite(
             @RequestHeader(name = "Authorization") String token,
             @RequestParam("file") MultipartFile file,
@@ -81,7 +71,7 @@ public class PatrimonialController {
             Patrimonial.setDescriptionHistorique(descriptionHistorique);
 
             if (file.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new JsonResponse(false, "bad image !!"));
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new JsonResponse(false, "Bad image !!"));
             } else {
                 try {
                     byte[] bytes = file.getBytes();
@@ -94,10 +84,10 @@ public class PatrimonialController {
 
                     Files.write(path, bytes);
 
-                    Patrimonial.setImageURL("http://localhost:8085/uploads/" + file.getOriginalFilename());
+                    Patrimonial.setImageURL("http://localhost:8085/uploads/patrimonial/" + file.getOriginalFilename());
                     patrimonialRepository.save(Patrimonial);
 
-                    return ResponseEntity.status(HttpStatus.OK).body(new JsonResponse(true, "Patrimonial site published successfully."));
+                    return ResponseEntity.status(HttpStatus.OK).body(new JsonResponse(true, "Patrimonial site published successfully.", Patrimonial));
                 } catch (IOException e) {
                     e.printStackTrace();
                     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new JsonResponse(false, "Failed to upload the file"));
@@ -108,23 +98,14 @@ public class PatrimonialController {
         }
     }
 
-    @GetMapping("/search")
+    @GetMapping("/list")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-
-    public ResponseEntity<?> searchSites(
-            @RequestParam(required = false) String nom,
-            @RequestParam(required = false) String localisation,
-            @RequestParam(required = false) String keyword) {
-        List<patrimonial> results;
-        if (nom != null && !nom.isEmpty()) {
-            results = patrimonialRepository.findByNomContainingIgnoreCase(nom);
-        } else if (localisation != null && !localisation.isEmpty()) {
-            results = patrimonialRepository.findByLocalisationContainingIgnoreCase(localisation);
-        } else if (keyword != null && !keyword.isEmpty()) {
-            results = patrimonialRepository.searchByDescription(keyword);
+    public ResponseEntity<?> getAllSites() {
+        List<patrimonial> sites = patrimonialRepository.findAll();
+        if (sites.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new JsonResponse(false, "No sites found"));
         } else {
-            results = patrimonialRepository.findAll();
+            return ResponseEntity.ok(sites);
         }
-        return ResponseEntity.ok(results);
     }
 }

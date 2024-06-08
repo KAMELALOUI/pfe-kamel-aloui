@@ -20,15 +20,15 @@ import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
-
 @RestController
 @RequestMapping("/api/media")
 public class MediaController {
 
-    private static final String UPLOAD_DIR = "src/main/resources/static/uploads/";
+    private static final String UPLOAD_DIR = "src/main/resources/static/uploads/media/";
 
     @Autowired
     private CheckAuth checkAuth;
@@ -36,16 +36,8 @@ public class MediaController {
     @Autowired
     private MediaRepository mediaRepository;
 
-    @GetMapping("/list")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-
-    public ResponseEntity<?> getAllMedia() {
-        return ResponseEntity.ok(this.mediaRepository.findAll());
-    }
-
     @PostMapping("/add")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-
     public ResponseEntity<?> createMedia(
             @RequestHeader(name = "Authorization") String token,
             @RequestParam("file") MultipartFile file,
@@ -84,12 +76,18 @@ public class MediaController {
                     // Save the file locally
                     byte[] bytes = file.getBytes();
                     Path path = Paths.get(UPLOAD_DIR + file.getOriginalFilename());
+
+                    // Ensure the directory exists
+                    if (!Files.exists(path.getParent())) {
+                        Files.createDirectories(path.getParent());
+                    }
+
                     Files.write(path, bytes);
 
-                    media.setImageURL("http://localhost:8086/uploads/" + file.getOriginalFilename());
+                    media.setImageURL("http://localhost:8086/uploads/media/" + file.getOriginalFilename());
                     this.mediaRepository.save(media);
 
-                    return ResponseEntity.status(HttpStatus.OK).body(new JsonResponse(true, "media published successfully."));
+                    return ResponseEntity.status(HttpStatus.OK).body(new JsonResponse(true, "Media published successfully.", media));
                 } catch (IOException e) {
                     e.printStackTrace();
                     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new JsonResponse(false, "Failed to upload the file"));
@@ -97,6 +95,17 @@ public class MediaController {
             }
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new JsonResponse(false, "Session expired"));
+        }
+    }
+
+    @GetMapping("/list")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public ResponseEntity<?> getAllMedia() {
+        List<Media> mediaList = mediaRepository.findAll();
+        if (mediaList.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new JsonResponse(false, "No media found"));
+        } else {
+            return ResponseEntity.ok(mediaList);
         }
     }
 }

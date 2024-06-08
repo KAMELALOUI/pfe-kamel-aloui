@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MainService } from 'src/app/api/main.service';
 
 @Component({
@@ -7,55 +8,46 @@ import { MainService } from 'src/app/api/main.service';
   templateUrl: './create-sites.component.html',
   styleUrls: ['./create-sites.component.css']
 })
-export class CreateSitesComponent {
-  form: FormGroup;
-  selectedFile: File | null = null;
-  error: string | null = null;
-  success: string | null = null;
+export class CreateSitesComponent implements OnInit  {
+  form = new FormGroup({
+    nom: new FormControl('', Validators.required),
+    localisation: new FormControl('', Validators.required),
+    descriptionHistorique: new FormControl('', Validators.required),
+    photo: new FormControl(null, Validators.required)
+  });
 
-  constructor(private fb: FormBuilder, private mainService: MainService) {
-    this.form = this.fb.group({
-      nom: ['', Validators.required],
-      localisation: ['', Validators.required],
-      descriptionHistorique: ['', Validators.required],
-      file: [null, Validators.required]
+  photo: any;
+  error: string = '';
+  success: string = '';
+
+  constructor(private main: MainService) { }
+
+  ngOnInit(): void { }
+
+  getPhoto(event: any) {
+    const file = event.target.files[0];
+    this.photo = file;
+  }
+
+  publish() {
+    const data: any = this.form.value;
+    let formData = new FormData();
+    formData.append('nom', data.nom);
+    formData.append('localisation', data.localisation); // Correct field name
+    formData.append('descriptionHistorique', data.descriptionHistorique);
+    formData.append('file', this.photo); // Ensure 'file' matches backend field name
+
+    this.error = '';
+    this.success = '';
+
+    this.main.addSite(formData).toPromise().then((res: any) => {
+      console.log(res);
+      if (res.success === true) {
+        this.success = res.message;
+        this.form.reset();
+      }
+    }).catch((err) => {
+      this.error = err.message;
     });
-  }
-
-  onFileChange(event: any) {
-    this.selectedFile = event.target.files[0];
-    if (this.selectedFile) {
-      this.form.patchValue({ file: this.selectedFile });
-    }
-  }
-
-  createSite() {
-    if (this.form.valid && this.selectedFile) {
-      const formData: FormData = new FormData();
-      formData.append('file', this.selectedFile);
-      formData.append('nom', this.form.get('nom')?.value);
-      formData.append('localisation', this.form.get('localisation')?.value);
-      formData.append('descriptionHistorique', this.form.get('descriptionHistorique')?.value);
-
-      this.mainService.addSite(formData).subscribe(
-        response => {
-          this.success = 'Site added successfully.';
-          this.error = null;
-          this.form.reset();
-          this.selectedFile = null;
-        },
-        error => {
-          this.error = 'An error occurred while adding the site.';
-          this.success = null;
-        }
-      );
-    } else {
-      this.error = 'Please fill out the form correctly.';
-      this.success = null;
-    }
-  }
-
-  get fileInvalid() {
-    return !this.selectedFile && this.form.get('file')?.touched;
   }
 }

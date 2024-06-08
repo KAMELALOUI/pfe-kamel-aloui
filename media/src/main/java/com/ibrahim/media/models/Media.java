@@ -7,8 +7,12 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "media")
+@Table(name = "mediaaa")
+@Getter
 
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Media {
 
     @Id
@@ -27,7 +31,6 @@ public class Media {
     private LocalDateTime createdAt = LocalDateTime.now();
 
 
-    @Column(nullable=false, length= 3000)
     private String imageURL;
 
 
@@ -108,18 +111,6 @@ public class Media {
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
     }
-
-
-    public Media() {
-        super();
-    }
-
-
-
-
-
-
-
 
 
 
