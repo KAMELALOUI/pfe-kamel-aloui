@@ -40,3 +40,4 @@ public class JsonResponse {
         this.data = data;
     }
 }
+

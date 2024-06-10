@@ -1,5 +1,5 @@
 /**
-* Template Name: Mentor
+* Template Name: kamel aloui
 * Template URL: https://bootstrapmade.com/mentor-free-education-bootstrap-theme/
 * Updated: May 10 2024 with Bootstrap v5.3.3
 * Author: BootstrapMade.com

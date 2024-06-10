@@ -1,14 +1,12 @@
 # Use an official OpenJDK runtime as a parent image
-FROM openjdk:17-jdk-alpine
-
-# Set the working directory inside the container
+FROM maven:3.9.7 AS build
 WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
 
-# Copy the application's jar file into the container
-COPY target/gateway-0.0.1-SNAPSHOT.jar app.jar
-
-# Make port 8222 available to the world outside this container
+FROM openjdk:17
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8222
-
-# Run the jar file
 ENTRYPOINT ["java", "-jar", "app.jar"]
